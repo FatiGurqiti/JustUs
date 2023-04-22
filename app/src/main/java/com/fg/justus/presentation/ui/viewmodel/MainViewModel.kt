@@ -2,6 +2,7 @@ package com.fg.justus.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fg.justus.data.local.preferences.PreferencesRepositoryImpl
 import com.fg.justus.domain.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -13,8 +14,8 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    preferencesRepository: PreferencesRepository
-): ViewModel() {
+    private val preferencesRepository: PreferencesRepository
+) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
@@ -22,7 +23,17 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             delay(1.seconds)
+            if (!isFirstTime()) {
+                // Load stuff
+            }
             _isLoading.value = false
         }
+    }
+
+    fun isFirstTime() =
+        preferencesRepository.getBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, false)
+
+    fun changeFirstTime() {
+        preferencesRepository.setBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, !isFirstTime())
     }
 }
