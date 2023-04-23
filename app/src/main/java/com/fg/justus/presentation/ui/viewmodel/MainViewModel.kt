@@ -22,18 +22,16 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(1.seconds)
             if (!isFirstTime()) {
                 // Load stuff
+                delay(1.seconds)
             }
             _isLoading.value = false
         }
     }
 
-    fun isFirstTime() =
-        preferencesRepository.getBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, false)
+    fun isFirstTime() = preferencesRepository.getBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, true)
 
-    fun changeFirstTime() {
-        preferencesRepository.setBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, !isFirstTime())
+    fun changeFirstTime() { preferencesRepository.setBoolean(PreferencesRepositoryImpl.IS_FIRST_TIME, false)
     }
 }
