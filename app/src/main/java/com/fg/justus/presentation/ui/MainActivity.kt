@@ -16,11 +16,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            installSplashScreen().apply {
-                setKeepVisibleCondition {
-                    viewModel.isLoading.value
-                }
-            }
+//            installSplashScreen().apply {
+//                setKeepVisibleCondition {
+//                    viewModel.isLoading.value
+//                }
+//            }
             Navigation(viewModel)
         }
     }
